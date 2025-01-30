@@ -10,20 +10,26 @@ authorName: 'Serverless, Inc.'
 authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
 -->
 
-# Serverless Framework Node HTTP API on AWS
 
-This template demonstrates how to make a simple HTTP API with Node.js running on AWS Lambda and API Gateway using the Serverless Framework.
+## Project: Coffee Shop Order Management System
+This system will allow a coffee shop to manage orders via a REST API. Each order will have:
 
-This template does not include any kind of persistence (database). For more advanced examples, check out the [serverless/examples repository](https://github.com/serverless/examples/) which includes Typescript, Mongo, DynamoDB and other examples.
+Order ID (unique identifier)
 
-## Usage
+Customer Name
+
+Items (e.g., coffee, tea, pastries)
+
+Status (e.g., "pending", "completed", "cancelled")
+
+Timestamp (when the order was created)
 
 ### Deployment
 
 In order to deploy the example, you need to run the following command:
 
 ```
-serverless deploy
+npm run deploy
 ```
 
 After running deploy, you should see output similar to:
@@ -59,7 +65,7 @@ Which should result in response similar to:
 The easiest way to develop and test your function is to use the `dev` command:
 
 ```
-serverless dev
+npm run dev
 ```
 
 This will start a local emulator of AWS Lambda and tunnel your requests to and from AWS Lambda, allowing you to interact with your function as if it were running in the cloud.

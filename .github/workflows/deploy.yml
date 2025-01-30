@@ -3,7 +3,7 @@ name: Deploy Coffee Shop API
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   deploy:

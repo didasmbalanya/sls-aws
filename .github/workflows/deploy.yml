@@ -8,6 +8,10 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      NODE_ENV: production
+      SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -20,6 +24,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -28,4 +33,4 @@ jobs:
           aws-region: us-east-1
 
       - name: Deploy to AWS
-        run: npx serverless@3 deploy --stage production
+        run: npx serverless deploy --stage production

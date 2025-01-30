@@ -14,7 +14,7 @@ export const get: APIGatewayProxyHandler = async ({ pathParameters, queryStringP
   if (!orderId) {
 
     const params = {
-      TableName: 'OrdersTable',
+      TableName: process.env.ORDERS_TABLE!,
       Limit: limit,
       ExclusiveStartKey: lastEvaluatedKey,
     };
@@ -38,7 +38,7 @@ export const get: APIGatewayProxyHandler = async ({ pathParameters, queryStringP
   }
 
   const params = {
-    TableName: "OrdersTable",
+    TableName: process.env.ORDERS_TABLE!,
     Key: {
       orderId,
     },

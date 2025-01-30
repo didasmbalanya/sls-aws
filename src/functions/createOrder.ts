@@ -9,7 +9,7 @@ export const create: APIGatewayProxyHandler = async ({ body }) => {
   const orderId = uuid();
 
   const params = {
-    TableName: "OrdersTable",
+    TableName: process.env.ORDERS_TABLE!,
     Item: {
       orderId,
       customerName: data.customerName,

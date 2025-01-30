@@ -11,7 +11,10 @@ plugins:
 provider:
   name: aws
   runtime: nodejs20.x
+  stage: ${opt:stage, 'dev'}
   region: us-east-1
+  environment:
+    ORDERS_TABLE: ${self:service}-${self:provider.stage}-OrdersTable
   iam:
     role:
       statements:
@@ -34,7 +37,10 @@ functions:
     handler: src/functions/getOrder.get
     events:
       - httpApi:
-          path: /orders/{orderId?}
+          path: /orders
+          method: get
+      - httpApi:
+          path: /orders/{orderId}
           method: get
   updateOrder:
     handler: src/functions/updateOrder.update
@@ -60,7 +66,7 @@ resources:
     OrdersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: OrdersTable
+        TableName: ${self:service}-${self:provider.stage}-OrdersTable
         AttributeDefinitions:
           - AttributeName: orderId
             AttributeType: S

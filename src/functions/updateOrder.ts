@@ -18,7 +18,7 @@ export const update: APIGatewayProxyHandler = async ({
   }
 
   const params = {
-    TableName: "OrdersTable",
+    TableName: process.env.ORDERS_TABLE!,
     Key: {
       orderId,
     },

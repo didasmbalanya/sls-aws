@@ -10,7 +10,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs22.x
+  runtime: nodejs20.x
   region: us-east-1
   iam:
     role:
@@ -28,25 +28,25 @@ functions:
     handler: src/functions/createOrder.create
     events:
       - httpApi:
-          path: orders
+          path: /orders
           method: post
   getOrder:
     handler: src/functions/getOrder.get
     events:
       - httpApi:
-          path: orders/{orderId?}
+          path: /orders/{orderId?}
           method: get
   updateOrder:
     handler: src/functions/updateOrder.update
     events:
       - httpApi:
-          path: orders/{orderId}
+          path: /orders/{orderId}
           method: put
   deleteOrder:
     handler: src/functions/deleteOrder.remove
     events:
       - httpApi:
-          path: orders/{orderId}
+          path: /orders/{orderId}
           method: delete
   hello:
     handler: src/functions/handler.hello

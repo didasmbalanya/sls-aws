@@ -7,10 +7,22 @@ export const get: APIGatewayProxyHandler = async ({ pathParameters }) => {
   const orderId = pathParameters?.orderId;
 
   if (!orderId) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({ message: "Order ID is required" }),
+    const params = {
+      TableName: 'OrdersTable',
     };
+
+    try {
+      const result = await dynamoDb.scan(params).promise();
+      return {
+        statusCode: 200,
+        body: JSON.stringify(result.Items),
+      };
+    } catch (error) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ message: 'Could not retrieve orders', error }),
+      };
+    }
   }
   const params = {
     TableName: "OrdersTable",

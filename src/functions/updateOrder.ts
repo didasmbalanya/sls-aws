@@ -22,14 +22,19 @@ export const update: APIGatewayProxyHandler = async ({
     Key: {
       orderId,
     },
-    UpdateExpression:
-      "SET customerName = :customerName, items = :items, status = :status",
-    ExpressionAttributeValues: {
-      ":customerName": data.customerName,
-      ":items": data.items,
-      ":status": data.status,
+    UpdateExpression: 'SET #customerName = :customerName, #items = :items, #status = :status',
+    ExpressionAttributeNames: {
+      '#customerName': 'customerName',
+      '#items': 'items',
+      '#status': 'status',
     },
-    ReturnValues: "ALL_NEW",
+    ExpressionAttributeValues: {
+      ':customerName': data.customerName,
+      ':items': data.items,
+      ':status': data.status,
+    },
+    ConditionExpression: 'attribute_exists(orderId)', // Ensure the item exists
+    ReturnValues: 'ALL_NEW',
   };
 
   try {
@@ -39,10 +44,22 @@ export const update: APIGatewayProxyHandler = async ({
       body: JSON.stringify(result.Attributes),
     };
   } catch (error) {
-    console.error("Error updating order:", error);
+    console.log(error);
+    if (error.code === 'ValidationException') {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ message: error.message }),
+      };
+    }
+    if (error.code === 'ConditionalCheckFailedException') {
+      return {
+        statusCode: 404,
+        body: JSON.stringify({ message: 'Order not found' }),
+      };
+    }
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: "Failed to update order" }),
+      body: JSON.stringify({ message: 'Could not update order' }),
     };
   }
 };

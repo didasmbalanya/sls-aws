@@ -28,4 +28,4 @@ jobs:
           aws-region: us-east-1
 
       - name: Deploy to AWS
-        run: npx serverless deploy --stage production --region us-east-1
+        run: npx serverless@3 deploy --stage production
